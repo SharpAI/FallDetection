@@ -60,7 +60,9 @@ RUN sudo apt-get install -y \
       x11vnc \
       xterm \
       xvfb \
-      wget
+      wget \
+      python3-pip
+RUN conda install -y scipy
 ADD ./docker-novnc /app/docker-novnc
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
@@ -81,7 +83,7 @@ ADD ./assets/tsstg-model.pth /app/Human-Falling-Detect-Tracks/Models/TSSTG/tsstg
 ADD ./assets/yolov3-tiny-onecls.cfg /app/Human-Falling-Detect-Tracks/Models/yolo-tiny-onecls/yolov3-tiny-onecls.cfg
 
 ADD ./requirements.txt /app/requirements.txt
-RUN pip3 install -r /app/requirements.txt
+RUN conda install -y flask tqdm
 ADD ./detector_cpu.py /app/Human-Falling-Detect-Tracks/detector.py
 
 CMD ["/app/docker-novnc/entrypoint.sh"]
